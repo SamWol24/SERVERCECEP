@@ -64,7 +64,20 @@ const update = async (req, res, next) => {
     }
 };
 
+const deleted = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const deletedUser = await User.destroy({ where: { id } });
 
+        if (!deletedUser) {
+            return response.success(req, res, { msg: "No se encontró el usuario" }, 404);
+        }
+
+        response.success(req, res, { msg: "Usuario eliminado exitosamente", regId: id }, 200);
+    } catch (error) {
+        next(error);
+    }
+};
 // Exportar las funciones del controlador
 module.exports = {
     getAll,
