@@ -32,6 +32,21 @@ const getOne = async (req, res, next) => {
     }
 };
 
+const create = async (req, res, next) => {
+    try {
+        const data = req.body;
+        const createdUser = await User.create(data);
+
+        const message = createdUser.id
+            ? { msg: "Usuario creado exitosamente", regId: createdUser.id }
+            : { msg: "Error, usuario no creado" };
+
+        response.success(req, res, message, 201);
+    } catch (error) {
+        next(error);
+    }
+};
+
 // Exportar las funciones del controlador
 module.exports = {
     getAll,
