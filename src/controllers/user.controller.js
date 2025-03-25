@@ -47,6 +47,24 @@ const create = async (req, res, next) => {
     }
 };
 
+const update = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const data = req.body;
+
+        const updatedUser = await User.update(data, { where: { id } });
+
+        if (updatedUser[0] === 0) {
+            return response.success(req, res, { msg: "No se encontró el usuario" }, 404);
+        }
+
+        response.success(req, res, { msg: "Usuario actualizado exitosamente", regId: id }, 200);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 // Exportar las funciones del controlador
 module.exports = {
     getAll,
